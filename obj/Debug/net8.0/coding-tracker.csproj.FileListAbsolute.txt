@@ -1,0 +1,14 @@
+/home/brenoacioli/Documents/coding-tracker/bin/Debug/net8.0/coding-tracker
+/home/brenoacioli/Documents/coding-tracker/bin/Debug/net8.0/coding-tracker.deps.json
+/home/brenoacioli/Documents/coding-tracker/bin/Debug/net8.0/coding-tracker.runtimeconfig.json
+/home/brenoacioli/Documents/coding-tracker/bin/Debug/net8.0/coding-tracker.dll
+/home/brenoacioli/Documents/coding-tracker/bin/Debug/net8.0/coding-tracker.pdb
+/home/brenoacioli/Documents/coding-tracker/obj/Debug/net8.0/coding-tracker.GeneratedMSBuildEditorConfig.editorconfig
+/home/brenoacioli/Documents/coding-tracker/obj/Debug/net8.0/coding-tracker.AssemblyInfoInputs.cache
+/home/brenoacioli/Documents/coding-tracker/obj/Debug/net8.0/coding-tracker.AssemblyInfo.cs
+/home/brenoacioli/Documents/coding-tracker/obj/Debug/net8.0/coding-tracker.csproj.CoreCompileInputs.cache
+/home/brenoacioli/Documents/coding-tracker/obj/Debug/net8.0/coding-tracker.dll
+/home/brenoacioli/Documents/coding-tracker/obj/Debug/net8.0/refint/coding-tracker.dll
+/home/brenoacioli/Documents/coding-tracker/obj/Debug/net8.0/coding-tracker.pdb
+/home/brenoacioli/Documents/coding-tracker/obj/Debug/net8.0/coding-tracker.genruntimeconfig.cache
+/home/brenoacioli/Documents/coding-tracker/obj/Debug/net8.0/ref/coding-tracker.dll
