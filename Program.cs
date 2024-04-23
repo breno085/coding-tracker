@@ -42,7 +42,7 @@ class Program
             Console.WriteLine("Type 1 to View All Records");
             Console.WriteLine("Type 2 to Insert Record");
             Console.WriteLine("Type 3 to Delete Record");
-            Console.WriteLine("Type to Update Record");
+            Console.WriteLine("Type 4 to Update Record");
             Console.WriteLine("--------------------------------\n");
 
             string command = Console.ReadLine();
@@ -182,7 +182,7 @@ class Program
             connection.Open();
 
             var checkCmd = connection.CreateCommand();
-            checkCmd.CommandText = $"SELECT EXISTS(SELECT 1 FROM drinking_water WHERE Id = {recordId})";
+            checkCmd.CommandText = $"SELECT EXISTS(SELECT 1 FROM coding_session WHERE Id = {recordId})";
             int checkQuery = Convert.ToInt32(checkCmd.ExecuteScalar());
 
             if (checkQuery == 0)
@@ -201,7 +201,7 @@ class Program
 
             var tableCmd = connection.CreateCommand();
 
-            tableCmd.CommandText = $"UPDATE FROM coding_session SET StartTime = '{startInput}', EndTime = '{endInput}', Duration = '{codingDuration}' WHERE Id = {recordId}";
+            tableCmd.CommandText = $"UPDATE coding_session SET StartTime = '{startInput}', EndTime = '{endInput}', Duration = '{codingDuration}' WHERE Id = {recordId}";
 
             tableCmd.ExecuteNonQuery();
 
