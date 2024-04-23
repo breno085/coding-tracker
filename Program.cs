@@ -170,12 +170,44 @@ class Program
         Console.WriteLine($"\nRecord with Id = {recordId} was deleted.\n");
 
     }
-
     static void Update()
     {
-        
-    }
+        GetAllRecords();
 
+        Console.WriteLine("Type the Id of the record you want to update");
+        string recordId = Console.ReadLine();
+
+        using (var connection = new SqliteConnection(connectionString))
+        {
+            connection.Open();
+
+            var checkCmd = connection.CreateCommand();
+            checkCmd.CommandText = $"SELECT EXISTS(SELECT 1 FROM drinking_water WHERE Id = {recordId})";
+            int checkQuery = Convert.ToInt32(checkCmd.ExecuteScalar());
+
+            if (checkQuery == 0)
+            {
+                Console.WriteLine($"\nRecord with Id = {recordId} doesn't exist.");
+                Console.WriteLine("Press any key to continue.");
+                Console.ReadLine();
+
+                connection.Close();
+                Update();
+            }
+
+            string startInput = StartTimeInput();
+            string endInput = EndTimeInput();
+            string codingDuration = CalculateDuration(startInput, endInput);
+
+            var tableCmd = connection.CreateCommand();
+
+            tableCmd.CommandText = $"UPDATE FROM coding_session SET StartTime = '{startInput}', EndTime = '{endInput}', Duration = '{codingDuration}' WHERE Id = {recordId}";
+
+            tableCmd.ExecuteNonQuery();
+
+            connection.Close();
+        }
+    }
     static string StartTimeInput()
     {
         Console.WriteLine("\nPlease insert the start time of your coding session. Format: (hh:mm). Type 0 to return to main menu.");
@@ -195,7 +227,6 @@ class Program
 
         return endTimeInput;
     }
-
     static string CalculateDuration(string startTimeStr, string endTimeStr)
     {
         TimeSpan startTime = TimeSpan.Parse(startTimeStr);
