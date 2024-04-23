@@ -2,6 +2,8 @@
 using Microsoft.Data.Sqlite;
 using coding_tracker.Models;
 using System.Runtime.CompilerServices;
+using Spectre.Console;
+using Microsoft.VisualBasic;
 
 class Program
 {
@@ -70,7 +72,7 @@ class Program
                     Console.WriteLine("\nInvalid Command. Please type a number from 0 to 4.\n");
                     break;
             }
-            Console.WriteLine("\n\n\nPress any key to continue");
+            Console.WriteLine("\n\nPress any key to continue");
             Console.ReadLine();
         }
     }
@@ -110,12 +112,8 @@ class Program
 
             connection.Close();
 
-            Console.WriteLine("------------------------------\n");
+            SpectreTable(tableData);
 
-            foreach (var dw in tableData)
-            {
-                Console.WriteLine($"{dw.Id} - Start Time: {dw.StartTime} - End Time: {dw.EndTime} - Duration: {dw.Duration}");
-            }
         }
     }
 
@@ -235,5 +233,27 @@ class Program
         TimeSpan timeDifference = endTime - startTime;
 
         return timeDifference.ToString(@"hh\:mm");
+    }
+
+    static void SpectreTable(List<CodingTracker> tableData)
+    {
+        var table = new Table();
+
+        table.AddColumn("Id");
+        table.AddColumn("Start Time");
+        table.AddColumn("End Time");
+        table.AddColumn("Duration");
+
+        foreach (var dw in tableData)
+        {
+            table.AddRow(
+                dw.Id.ToString(),
+                dw.StartTime.ToString(),
+                dw.EndTime.ToString(),
+                dw.Duration.ToString()
+            );
+        }
+        // Render the table to the console
+        AnsiConsole.Write(table);
     }
 }
