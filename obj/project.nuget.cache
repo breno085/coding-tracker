@@ -1,8 +1,16 @@
 {
   "version": 2,
-  "dgSpecHash": "zQwKPoAsY7Cbt98frCGVxHYXQla06kgsRGHAFIWg3Q27fX1nKn5zhyZTx3gljb9UXM7fH9PgJ7/5Oec82Vojow==",
+  "dgSpecHash": "Cht29Eq641mAJzx9Fyn6FSPyj9O0hpW6yFlRAZcLX4IdnIWdgCXoM6t4wMEBNv3kuWR+K39ebi22sBPAUICARw==",
   "success": true,
   "projectFilePath": "/home/brenoacioli/Documents/coding-tracker/coding-tracker.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "/home/brenoacioli/.nuget/packages/microsoft.data.sqlite/8.0.4/microsoft.data.sqlite.8.0.4.nupkg.sha512",
+    "/home/brenoacioli/.nuget/packages/microsoft.data.sqlite.core/8.0.4/microsoft.data.sqlite.core.8.0.4.nupkg.sha512",
+    "/home/brenoacioli/.nuget/packages/sqlitepclraw.bundle_e_sqlite3/2.1.6/sqlitepclraw.bundle_e_sqlite3.2.1.6.nupkg.sha512",
+    "/home/brenoacioli/.nuget/packages/sqlitepclraw.core/2.1.6/sqlitepclraw.core.2.1.6.nupkg.sha512",
+    "/home/brenoacioli/.nuget/packages/sqlitepclraw.lib.e_sqlite3/2.1.6/sqlitepclraw.lib.e_sqlite3.2.1.6.nupkg.sha512",
+    "/home/brenoacioli/.nuget/packages/sqlitepclraw.provider.e_sqlite3/2.1.6/sqlitepclraw.provider.e_sqlite3.2.1.6.nupkg.sha512",
+    "/home/brenoacioli/.nuget/packages/system.memory/4.5.3/system.memory.4.5.3.nupkg.sha512"
+  ],
   "logs": []
 }
