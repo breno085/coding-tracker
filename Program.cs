@@ -141,11 +141,9 @@ class Program
 
     static void Delete()
     {
-        Console.Clear();
         GetAllRecords();
 
-        Console.WriteLine("Type the Id of the record you want to delete.");
-        string recordId = Console.ReadLine();
+        int recordId = GetNumberInput("Type the Id of the record you want to delete, or type 0 to go back to the main menu.");
 
         using (var connection = new SqliteConnection(connectionString))
         {
@@ -170,10 +168,10 @@ class Program
     }
     static void Update()
     {
+        Console.Clear();
         GetAllRecords();
 
-        Console.WriteLine("Type the Id of the record you want to update");
-        string recordId = Console.ReadLine();
+        int recordId = GetNumberInput("Type the Id of the record you want to update, or type 0 to go back to the main menu.");
 
         using (var connection = new SqliteConnection(connectionString))
         {
@@ -206,18 +204,19 @@ class Program
             connection.Close();
         }
     }
+
     static string StartTimeInput()
     {
         Console.WriteLine("\nPlease insert the start time of your coding session. Format: (hh:mm). Type 0 to return to main menu.");
         string startTimeInput = Console.ReadLine();
 
-        while (!TimeSpan.TryParseExact(startTimeInput, "hh\\:mm", new CultureInfo("en-US"), TimeSpanStyles.None, out _))
+        if (startTimeInput == "0") GetUserInput();
+
+        while (!TimeSpan.TryParseExact(startTimeInput, "hh\\:mm", CultureInfo.InvariantCulture, out _))
         {
             Console.WriteLine("Invalid time. Format: (hh:mm). Type 0 to return to main menu or try again: \n");
             startTimeInput = Console.ReadLine();
         }
-
-        if (startTimeInput == "0") GetUserInput();
 
         return startTimeInput;
     }
@@ -227,16 +226,17 @@ class Program
         Console.WriteLine("\nPlease insert the end time of your coding session. Format: (hh:mm). Type 0 to return to main menu.");
         string endTimeInput = Console.ReadLine();
 
-        while (!TimeSpan.TryParseExact(endTimeInput, "hh\\:mm", new CultureInfo("en-US"), TimeSpanStyles.None, out _))
+        if (endTimeInput == "0") GetUserInput();
+
+        while (!TimeSpan.TryParseExact(endTimeInput, "hh\\:mm", CultureInfo.InvariantCulture, out _))
         {
             Console.WriteLine("Invalid time. Format: (hh:mm). Type 0 to return to main menu or try again: \n");
             endTimeInput = Console.ReadLine();
         }
 
-        if (endTimeInput == "0") GetUserInput();
-
         return endTimeInput;
     }
+    
     static string CalculateDuration(string startTimeStr, string endTimeStr)
     {
         TimeSpan startTime = TimeSpan.Parse(startTimeStr);
@@ -245,6 +245,26 @@ class Program
         TimeSpan timeDifference = endTime - startTime;
 
         return timeDifference.ToString(@"hh\:mm");
+    }
+
+    static int GetNumberInput(string input)
+    {
+        Console.WriteLine(input);
+
+        string numberInput = Console.ReadLine();
+
+        if (numberInput == "0") 
+            GetUserInput();
+
+        while (!Int32.TryParse(numberInput, out _) || Convert.ToInt32(numberInput) < 0)
+        {
+            Console.WriteLine("\nInvalid number, try again.");
+            numberInput = Console.ReadLine();
+        }
+
+        int finalInput = Convert.ToInt32(numberInput);
+
+        return finalInput;
     }
 
     static void SpectreTable(List<CodingTracker> tableData)
