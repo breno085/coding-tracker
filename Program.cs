@@ -211,6 +211,12 @@ class Program
         Console.WriteLine("\nPlease insert the start time of your coding session. Format: (hh:mm). Type 0 to return to main menu.");
         string startTimeInput = Console.ReadLine();
 
+        while (!TimeSpan.TryParseExact(startTimeInput, "hh\\:mm", new CultureInfo("en-US"), TimeSpanStyles.None, out _))
+        {
+            Console.WriteLine("Invalid time. Format: (hh:mm). Type 0 to return to main menu or try again: \n");
+            startTimeInput = Console.ReadLine();
+        }
+
         if (startTimeInput == "0") GetUserInput();
 
         return startTimeInput;
@@ -220,6 +226,12 @@ class Program
     {
         Console.WriteLine("\nPlease insert the end time of your coding session. Format: (hh:mm). Type 0 to return to main menu.");
         string endTimeInput = Console.ReadLine();
+
+        while (!TimeSpan.TryParseExact(endTimeInput, "hh\\:mm", new CultureInfo("en-US"), TimeSpanStyles.None, out _))
+        {
+            Console.WriteLine("Invalid time. Format: (hh:mm). Type 0 to return to main menu or try again: \n");
+            endTimeInput = Console.ReadLine();
+        }
 
         if (endTimeInput == "0") GetUserInput();
 
