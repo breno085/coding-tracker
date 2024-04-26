@@ -8,7 +8,6 @@ using Microsoft.VisualBasic;
 class Program
 {
     static string connectionString = @"Data Source=coding-Tracker.db";
-
     static void Main(string[] args)
     {
         using (var connection = new SqliteConnection(connectionString))
