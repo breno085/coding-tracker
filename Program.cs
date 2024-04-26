@@ -19,6 +19,7 @@ class Program
             tableCmd.CommandText =
                 @"CREATE TABLE IF NOT EXISTS coding_session (
                     Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    Date TEXT,
                     StartTime TEXT,
                     EndTime TEXT,
                     Duration TEXT
@@ -99,9 +100,10 @@ class Program
                     new CodingTracker
                     {
                         Id = reader.GetInt32(0),
-                        StartTime = TimeSpan.ParseExact(reader.GetString(1), "hh\\:mm", new CultureInfo("en-US")),
-                        EndTime = TimeSpan.ParseExact(reader.GetString(2), "hh\\:mm", new CultureInfo("en-US")),
-                        Duration = TimeSpan.ParseExact(reader.GetString(3), "hh\\:mm", new CultureInfo("en-US"))
+                        Date = DateTime.ParseExact(reader.GetString(1), "dd-MM-yyyy", new CultureInfo("en-US")),
+                        StartTime = TimeSpan.ParseExact(reader.GetString(2), "hh\\:mm", new CultureInfo("en-US")),
+                        EndTime = TimeSpan.ParseExact(reader.GetString(3), "hh\\:mm", new CultureInfo("en-US")),
+                        Duration = TimeSpan.ParseExact(reader.GetString(4), "hh\\:mm", new CultureInfo("en-US"))
                     });
                 }
             }
@@ -124,6 +126,7 @@ class Program
         string startInput = StartTimeInput();
         string endInput = EndTimeInput();
         string codingDuration = CalculateDuration(startInput, endInput);
+        CodingTracker date = new CodingTracker();
 
         using (var connection = new SqliteConnection(connectionString))
         {
@@ -131,7 +134,7 @@ class Program
             var tableCmd = connection.CreateCommand();
 
             tableCmd.CommandText =
-                $"INSERT INTO coding_session(StartTime, EndTime, Duration) VALUES ('{startInput}', '{endInput}', '{codingDuration}')";
+                $"INSERT INTO coding_session(Date, StartTime, EndTime, Duration) VALUES ('{date.Date.ToString("dd-MM-yyyy")}','{startInput}', '{endInput}', '{codingDuration}')";
 
             tableCmd.ExecuteNonQuery();
 
@@ -272,6 +275,7 @@ class Program
         var table = new Table();
 
         table.AddColumn("Id");
+        table.AddColumn("Date");
         table.AddColumn("Start Time");
         table.AddColumn("End Time");
         table.AddColumn("Duration");
@@ -280,9 +284,10 @@ class Program
         {
             table.AddRow(
                 dw.Id.ToString(),
-                dw.StartTime.ToString(),
-                dw.EndTime.ToString(),
-                dw.Duration.ToString()
+                dw.Date.ToString("dd-MM-yyyy"),
+                dw.StartTime.ToString("hh\\:mm"),
+                dw.EndTime.ToString("hh\\:mm"),
+                dw.Duration.ToString("hh\\:mm")
             );
         }
         // Render the table to the console
