@@ -44,3 +44,9 @@
 /home/brenoacioli/Documents/coding-tracker/bin/Debug/net8.0/de/Spectre.Console.Cli.resources.dll
 /home/brenoacioli/Documents/coding-tracker/bin/Debug/net8.0/fr/Spectre.Console.Cli.resources.dll
 /home/brenoacioli/Documents/coding-tracker/bin/Debug/net8.0/sv/Spectre.Console.Cli.resources.dll
+/home/brenoacioli/Documents/coding-tracker/bin/Debug/net8.0/coding-tracker.dll.config
+/home/brenoacioli/Documents/coding-tracker/bin/Debug/net8.0/System.Configuration.ConfigurationManager.dll
+/home/brenoacioli/Documents/coding-tracker/bin/Debug/net8.0/System.Diagnostics.EventLog.dll
+/home/brenoacioli/Documents/coding-tracker/bin/Debug/net8.0/System.Security.Cryptography.ProtectedData.dll
+/home/brenoacioli/Documents/coding-tracker/bin/Debug/net8.0/runtimes/win/lib/net8.0/System.Diagnostics.EventLog.Messages.dll
+/home/brenoacioli/Documents/coding-tracker/bin/Debug/net8.0/runtimes/win/lib/net8.0/System.Diagnostics.EventLog.dll

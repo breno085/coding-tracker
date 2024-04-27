@@ -1,0 +1,32 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.Data.Sqlite;
+
+namespace coding_tracker.Models
+{
+    internal class DatabaseManager
+    {
+        internal void CreateTable(string connectionString)
+        {
+            using (var connection = new SqliteConnection(connectionString))
+            {
+                using (var tableCmd = connection.CreateCommand())
+                {
+                    connection.Open();
+
+                    tableCmd.CommandText =
+                        @"CREATE TABLE IF NOT EXISTS coding_session (
+                        Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        Date TEXT,
+                        StartTime TEXT,
+                        EndTime TEXT,
+                        Duration TEXT)";
+
+                    tableCmd.ExecuteNonQuery();
+                }
+            }
+        }
+    }
+}
