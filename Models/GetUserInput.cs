@@ -74,7 +74,7 @@ namespace coding_tracker.Models
             string startInput = TimeInput("\nPlease insert the start time of your coding session. Format: (hh:mm). Type 0 to return to main menu.");
             string endInput = TimeInput("\nPlease insert the end time of your coding session. Format: (hh:mm). Type 0 to return to main menu.");
             string codingDuration = CalculateDuration(startInput, endInput);
-            
+
             CodingTracker code = new CodingTracker();
 
             code.StartTime = TimeSpan.Parse(startInput);
@@ -96,42 +96,67 @@ namespace coding_tracker.Models
         private void Update()
         {
             Console.Clear();
+
             GetAllRecords();
 
-            int recordId = GetNumberInput("Type the Id of the record you want to update, or type 0 to go back to the main menu.");
+            CodingController codingController = new CodingController();
 
-            using (var connection = new SqliteConnection(connectionString))
+            int recordId;
+
+            do
             {
-                connection.Open();
+                recordId = GetNumberInput("Type the Id of the record you want to update, or type 0 to go back to the main menu.");
+            } while (!codingController.RecordExists(recordId));
 
-                var checkCmd = connection.CreateCommand();
-                checkCmd.CommandText = $"SELECT EXISTS(SELECT 1 FROM coding_session WHERE Id = {recordId})";
-                int checkQuery = Convert.ToInt32(checkCmd.ExecuteScalar());
+            string startInput = TimeInput("\nPlease insert the start time of your coding session. Format: (hh:mm). Type 0 to return to main menu.");
+            string endInput = TimeInput("\nPlease insert the end time of your coding session. Format: (hh:mm). Type 0 to return to main menu.");
+            string codingDuration = CalculateDuration(startInput, endInput);
 
-                if (checkQuery == 0)
-                {
-                    Console.WriteLine($"\nRecord with Id = {recordId} doesn't exist.");
-                    Console.WriteLine("Press any key to continue.");
-                    Console.ReadLine();
-
-                    connection.Close();
-                    Update();
-                }
-
-                string startInput = TimeInput("\nPlease insert the start time of your coding session. Format: (hh:mm). Type 0 to return to main menu.");
-                string endInput = TimeInput("\nPlease insert the end time of your coding session. Format: (hh:mm). Type 0 to return to main menu.");
-                string codingDuration = CalculateDuration(startInput, endInput);
-
-                var tableCmd = connection.CreateCommand();
-
-                tableCmd.CommandText = $"UPDATE coding_session SET StartTime = '{startInput}', EndTime = '{endInput}', Duration = '{codingDuration}' WHERE Id = {recordId}";
-
-                tableCmd.ExecuteNonQuery();
-
-                connection.Close();
-            }
+            codingController.UpdateRecord(recordId, startInput, endInput, codingDuration);
         }
 
+        // private void UpdateMenu()
+        // {   
+        //     bool updating = true;
+
+        //     while (updating)
+        //     {
+        //         Console.WriteLine("What propertie(s) do you want to update ?\n");
+        //         Console.WriteLine($"Type 's' for start time");
+        //         Console.WriteLine($"Type 'e' for end time");
+        //         Console.WriteLine($"Type 'b' for both");
+        //         Console.WriteLine($"Type 'u' to save update");
+        //         Console.WriteLine($"Type '0' to go back to main menu\n");
+
+        //         string updateInput = Console.ReadLine();
+
+        //         switch (updateInput)
+        //         {
+        //             case "s":
+        //             break;
+
+        //             case "e":
+        //             break;
+
+        //             case "b":
+        //             Update();
+        //             break;
+
+        //             case "u":
+        //             break;
+
+        //             case "0":
+        //             MainMenu();
+        //             updating = false;
+        //             break;
+
+        //             default:
+        //             Console.WriteLine("Invalid command, type a valid command from the menu");
+        //             break;
+                    
+        //         }
+        //     }
+        // }
         static string TimeInput(string question)
         {
             Console.WriteLine(question);
@@ -150,7 +175,7 @@ namespace coding_tracker.Models
 
             return timeInput;
         }
-        
+
         static string CalculateDuration(string startTimeStr, string endTimeStr)
         {
             TimeSpan startTime = TimeSpan.Parse(startTimeStr);

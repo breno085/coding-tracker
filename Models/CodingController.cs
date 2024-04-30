@@ -92,5 +92,36 @@ namespace coding_tracker.Models
 
             Console.WriteLine($"\nRecord with Id = {recordId} was deleted.\n");
         }
+
+        internal void UpdateRecord(int recordId, string startInput, string endInput, string codingDuration)
+        {
+            using (var connection = new SqliteConnection(connectionString))
+            {
+                using (var tableCmd = connection.CreateCommand())
+                {
+                    connection.Open();
+
+                    tableCmd.CommandText = $"UPDATE coding_session SET StartTime = '{startInput}', EndTime = '{endInput}', Duration = '{codingDuration}' WHERE Id = {recordId}";
+
+                    tableCmd.ExecuteNonQuery();
+                }
+            }
+        }
+        
+        public bool RecordExists(int recordId)
+        {
+            using (var connection = new SqliteConnection(connectionString))
+            {
+                using (var checkCmd = connection.CreateCommand())
+                {
+                    connection.Open();
+
+                    checkCmd.CommandText = $"SELECT EXISTS(SELECT 1 FROM coding_session WHERE Id = {recordId})";
+                    int checkQuery = Convert.ToInt32(checkCmd.ExecuteScalar());
+
+                    return checkQuery != 0;
+                }
+            }
+        }
     }
 }
