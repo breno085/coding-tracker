@@ -49,7 +49,7 @@ namespace coding_tracker.Models
                         Delete();
                         break;
                     case "4":
-                        Update();
+                        UpdateProcess();
                         break;
                     default:
                         Console.WriteLine("\nInvalid Command. Please type a number from 0 to 4.\n");
@@ -93,7 +93,7 @@ namespace coding_tracker.Models
             codingController.DeleteRecord(recordId);
         }
 
-        private void Update()
+        private void Update(string option)
         {
             Console.Clear();
 
@@ -108,59 +108,69 @@ namespace coding_tracker.Models
                 recordId = GetNumberInput("Type the Id of the record you want to update, or type 0 to go back to the main menu.");
             } while (!codingController.RecordExists(recordId));
 
-            CodingTracker code = new();
+            string startInput = null;
+            string endInput = null;
+            string codingDuration = null;
 
-            code.StartTime = TimeSpan.Parse(TimeInput("\nPlease insert the start time of your coding session. Format: (hh:mm). Type 0 to return to main menu."));
+            // CodingTracker code = new();
 
-            string startInput = TimeInput("\nPlease insert the start time of your coding session. Format: (hh:mm). Type 0 to return to main menu.");
-            string endInput = TimeInput("\nPlease insert the end time of your coding session. Format: (hh:mm). Type 0 to return to main menu.");
-            string codingDuration = CalculateDuration(startInput, endInput);
+            // code.StartTime = TimeSpan.Parse(TimeInput("\nPlease insert the start time of your coding session. Format: (hh:mm). Type 0 to return to main menu."));
+
+            if (option == "s" || option == "b")
+                startInput = TimeInput("\nPlease insert the start time of your coding session. Format: (hh:mm). Type 0 to return to main menu.");
+            
+            if (option == "e" || option == "b")
+                endInput = TimeInput("\nPlease insert the end time of your coding session. Format: (hh:mm). Type 0 to return to main menu.");
+            
+            if (option == "b")
+                codingDuration = CalculateDuration(startInput, endInput);
 
             codingController.UpdateRecord(recordId, startInput, endInput, codingDuration);
         }
 
-        // private void UpdateMenu()
-        // {   
-        //     bool updating = true;
+        private void UpdateProcess()
+        {
+            bool updating = true;
 
-        //     while (updating)
-        //     {
-        //         Console.WriteLine("What propertie(s) do you want to update ?\n");
-        //         Console.WriteLine($"Type 's' for start time");
-        //         Console.WriteLine($"Type 'e' for end time");
-        //         Console.WriteLine($"Type 'b' for both");
-        //         Console.WriteLine($"Type 'u' to save update");
-        //         Console.WriteLine($"Type '0' to go back to main menu\n");
+            while (updating)
+            {
+                Console.WriteLine("\nWhat propertie(s) do you want to update ?\n");
+                Console.WriteLine("Type 'd' for date");
+                Console.WriteLine($"Type 's' for start time");
+                Console.WriteLine($"Type 'e' for end time");
+                Console.WriteLine($"Type 'b' for both start and end times");
+                Console.WriteLine($"Type '0' to go back to main menu\n");
 
-        //         string updateInput = Console.ReadLine();
+                string updateInput = Console.ReadLine();
 
-        //         switch (updateInput)
-        //         {
-        //             case "s":
-        //             break;
+                switch (updateInput)
+                {
+                    // case "d":
+                    //     break;
 
-        //             case "e":
-        //             break;
+                    case "s":
+                        Update("s");
+                        break;
 
-        //             case "b":
-        //             Update();
-        //             break;
+                    case "e":
+                        Update("e");
+                        break;
 
-        //             case "u":
-        //             break;
+                    case "b":
+                        Update("b");
+                        break;
 
-        //             case "0":
-        //             MainMenu();
-        //             updating = false;
-        //             break;
+                    case "0":
+                        MainMenu();
+                        updating = false;
+                        break;
 
-        //             default:
-        //             Console.WriteLine("Invalid command, type a valid command from the menu");
-        //             break;
-                    
-        //         }
-        //     }
-        // }
+                    default:
+                        Console.WriteLine("Invalid command, type a valid command from the menu");
+                        break;
+                }
+            }
+        }
         static string TimeInput(string question)
         {
             Console.WriteLine(question);

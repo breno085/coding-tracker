@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Configuration;
 using Microsoft.Data.Sqlite;
 using System.Globalization;
+using System.Runtime.CompilerServices;
 
 namespace coding_tracker.Models
 {
@@ -101,13 +102,71 @@ namespace coding_tracker.Models
                 {
                     connection.Open();
 
-                    tableCmd.CommandText = $"UPDATE coding_session SET StartTime = '{startInput}', EndTime = '{endInput}', Duration = '{codingDuration}' WHERE Id = {recordId}";
+                    string updateCmd = $"UPDATE coding_session SET ";
+
+                    if (!string.IsNullOrEmpty(startInput))
+                        updateCmd += $"StartTime = '{startInput}', ";
+                        
+                    if (!string.IsNullOrEmpty(endInput))
+                        updateCmd += $"EndTime = '{endInput}', ";
+
+                    if (!string.IsNullOrEmpty(codingDuration))
+                        updateCmd += $"Duration = '{codingDuration}', ";
+
+                    updateCmd = updateCmd.TrimEnd(',', ' ');
+
+                    updateCmd += $" WHERE Id = {recordId}";
+
+                    tableCmd.CommandText = updateCmd;
 
                     tableCmd.ExecuteNonQuery();
                 }
             }
+
+            if (string.IsNullOrEmpty(codingDuration))
+            {
+                string startTimeStr;
+                string endTimeStr;
+                string codeDuration;
+
+                using (var connection = new SqliteConnection(connectionString))
+                {
+                    using (var tableCmd = connection.CreateCommand())
+                    {
+                        connection.Open();
+
+                        tableCmd.CommandText =
+                        $"SELECT StartTime, EndTime FROM coding_session WHERE Id = {recordId}";
+
+                        using (var reader = tableCmd.ExecuteReader())
+                        {
+                            if (reader.HasRows)
+                            {
+                                while (reader.Read())
+                                {
+
+                                    startTimeStr = reader.GetString(0);
+                                    endTimeStr = reader.GetString(1);
+
+                                    codeDuration = GetUserInput.CalculateDuration(startTimeStr, endTimeStr);
+
+                                    using (var updateCmd = connection.CreateCommand())
+                                    {
+                                        updateCmd.CommandText = $"UPDATE coding_session SET Duration = '{codeDuration}' WHERE Id = {recordId}";
+                                        updateCmd.ExecuteNonQuery();
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                Console.WriteLine("No rows found");
+                            }
+                        }
+                    }
+                }
+            }
         }
-        
+
         public bool RecordExists(int recordId)
         {
             using (var connection = new SqliteConnection(connectionString))
