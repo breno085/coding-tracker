@@ -108,6 +108,10 @@ namespace coding_tracker.Models
                 recordId = GetNumberInput("Type the Id of the record you want to update, or type 0 to go back to the main menu.");
             } while (!codingController.RecordExists(recordId));
 
+            CodingTracker code = new();
+
+            code.StartTime = TimeSpan.Parse(TimeInput("\nPlease insert the start time of your coding session. Format: (hh:mm). Type 0 to return to main menu."));
+
             string startInput = TimeInput("\nPlease insert the start time of your coding session. Format: (hh:mm). Type 0 to return to main menu.");
             string endInput = TimeInput("\nPlease insert the end time of your coding session. Format: (hh:mm). Type 0 to return to main menu.");
             string codingDuration = CalculateDuration(startInput, endInput);
@@ -176,7 +180,7 @@ namespace coding_tracker.Models
             return timeInput;
         }
 
-        static string CalculateDuration(string startTimeStr, string endTimeStr)
+        public static string CalculateDuration(string startTimeStr, string endTimeStr)
         {
             TimeSpan startTime = TimeSpan.Parse(startTimeStr);
             TimeSpan endTime = TimeSpan.Parse(endTimeStr);
