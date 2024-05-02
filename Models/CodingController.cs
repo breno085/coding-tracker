@@ -47,7 +47,7 @@ namespace coding_tracker.Models
                         if (reader.HasRows)
                         {
                             while (reader.Read())
-                            {
+                            {   
                                 tableData.Add(
                                 new CodingTracker
                                 {
@@ -94,7 +94,7 @@ namespace coding_tracker.Models
             Console.WriteLine($"\nRecord with Id = {recordId} was deleted.\n");
         }
 
-        internal void UpdateRecord(int recordId, string startInput, string endInput, string codingDuration)
+        internal void UpdateRecord(int recordId, string startInput, string endInput, string codingDuration, string date)
         {
             using (var connection = new SqliteConnection(connectionString))
             {
@@ -104,9 +104,12 @@ namespace coding_tracker.Models
 
                     string updateCmd = $"UPDATE coding_session SET ";
 
+                    if (!string.IsNullOrEmpty(date))
+                        updateCmd += $"Date = '{date}', ";
+
                     if (!string.IsNullOrEmpty(startInput))
                         updateCmd += $"StartTime = '{startInput}', ";
-                        
+
                     if (!string.IsNullOrEmpty(endInput))
                         updateCmd += $"EndTime = '{endInput}', ";
 

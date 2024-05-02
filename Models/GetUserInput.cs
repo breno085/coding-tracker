@@ -108,24 +108,27 @@ namespace coding_tracker.Models
                 recordId = GetNumberInput("Type the Id of the record you want to update, or type 0 to go back to the main menu.");
             } while (!codingController.RecordExists(recordId));
 
-            string startInput = null;
-            string endInput = null;
-            string codingDuration = null;
+            string startInput = "";
+            string endInput = "";
+            string codingDuration = "";
+            string date = "";
 
             // CodingTracker code = new();
 
             // code.StartTime = TimeSpan.Parse(TimeInput("\nPlease insert the start time of your coding session. Format: (hh:mm). Type 0 to return to main menu."));
+            if (option == "d")
+                date = DateInput();
 
             if (option == "s" || option == "b")
                 startInput = TimeInput("\nPlease insert the start time of your coding session. Format: (hh:mm). Type 0 to return to main menu.");
-            
+
             if (option == "e" || option == "b")
                 endInput = TimeInput("\nPlease insert the end time of your coding session. Format: (hh:mm). Type 0 to return to main menu.");
-            
+
             if (option == "b")
                 codingDuration = CalculateDuration(startInput, endInput);
 
-            codingController.UpdateRecord(recordId, startInput, endInput, codingDuration);
+            codingController.UpdateRecord(recordId, startInput, endInput, codingDuration, date);
         }
 
         private void UpdateProcess()
@@ -145,8 +148,9 @@ namespace coding_tracker.Models
 
                 switch (updateInput)
                 {
-                    // case "d":
-                    //     break;
+                    case "d":
+                        Update("d");
+                        break;
 
                     case "s":
                         Update("s");
@@ -185,41 +189,60 @@ namespace coding_tracker.Models
             {
                 Console.WriteLine("Invalid time. Format: (hh:mm). Type 0 to return to main menu or try again: \n");
                 timeInput = Console.ReadLine();
+
+                if (timeInput == "0")  mainMenu.MainMenu();
             }
 
             return timeInput;
         }
 
-        public static string CalculateDuration(string startTimeStr, string endTimeStr)
+        public string DateInput()
         {
-            TimeSpan startTime = TimeSpan.Parse(startTimeStr);
-            TimeSpan endTime = TimeSpan.Parse(endTimeStr);
+            Console.WriteLine("\nPlease insert date of your coding session you want to update. Format: (dd-MM-yyyy). Type 0 to return to main menu.");
+            string dateInput = Console.ReadLine();
 
-            TimeSpan timeDifference = endTime - startTime;
+            if (dateInput == "0") MainMenu();
 
-            return timeDifference.ToString(@"hh\:mm");
-        }
-
-        static int GetNumberInput(string input)
-        {
-            Console.WriteLine(input);
-
-            string numberInput = Console.ReadLine();
-
-            GetUserInput mainMenu = new GetUserInput();
-
-            while (!Int32.TryParse(numberInput, out _) || Convert.ToInt32(numberInput) < 0 || string.IsNullOrEmpty(numberInput))
+            while (!DateTime.TryParseExact(dateInput, "dd-MM-yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out _))
             {
-                Console.WriteLine("\nInvalid Id, try again. (Or type 0 to go back to the main menu)");
-                numberInput = Console.ReadLine();
+                Console.WriteLine("Invalid time. Format: (dd-MM-yyyy). Type 0 to return to main menu or try again: \n");
+                dateInput = Console.ReadLine();
+
+                if (dateInput == "0")  MainMenu();
             }
 
-            if (numberInput == "0") mainMenu.MainMenu();
-
-            int finalInput = Convert.ToInt32(numberInput);
-
-            return finalInput;
+            return dateInput;
         }
+            public static string CalculateDuration(string startTimeStr, string endTimeStr)
+            {
+                TimeSpan startTime = TimeSpan.Parse(startTimeStr);
+                TimeSpan endTime = TimeSpan.Parse(endTimeStr);
 
+                TimeSpan timeDifference = endTime - startTime;
+
+                return timeDifference.ToString(@"hh\:mm");
+            }
+
+            static int GetNumberInput(string input)
+            {
+                Console.WriteLine(input);
+
+                string numberInput = Console.ReadLine();
+
+                GetUserInput mainMenu = new GetUserInput();
+
+                while (!Int32.TryParse(numberInput, out _) || Convert.ToInt32(numberInput) < 0 || string.IsNullOrEmpty(numberInput))
+                {
+                    Console.WriteLine("\nInvalid Id, try again. (Or type 0 to go back to the main menu)");
+                    numberInput = Console.ReadLine();
+                }
+
+                if (numberInput == "0") mainMenu.MainMenu();
+
+                int finalInput = Convert.ToInt32(numberInput);
+
+                return finalInput;
+            }
+
+        }
     }
-}
