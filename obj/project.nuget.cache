@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "kSYNuItlri4pQyPgWdY8/IhqULHKJzLwu1Koljm+ARjdB4P8p6rwPvxhiSZuCrvdIqzgvB+GfdD+YJMOfp86Rw==",
+  "dgSpecHash": "ZBj6zx59UcWL3hMkZv5ay2x6Du4t5orJT4PQaWNwsDzYH0DJip3/FDrcGATGhxJ/L+iSD+EMF5v/PuH+6GY9iw==",
   "success": true,
   "projectFilePath": "/home/brenoacioli/Documents/coding-tracker/coding-tracker.csproj",
   "expectedPackageFiles": [
@@ -12,7 +12,10 @@
     "/home/brenoacioli/.nuget/packages/sqlitepclraw.core/2.1.6/sqlitepclraw.core.2.1.6.nupkg.sha512",
     "/home/brenoacioli/.nuget/packages/sqlitepclraw.lib.e_sqlite3/2.1.6/sqlitepclraw.lib.e_sqlite3.2.1.6.nupkg.sha512",
     "/home/brenoacioli/.nuget/packages/sqlitepclraw.provider.e_sqlite3/2.1.6/sqlitepclraw.provider.e_sqlite3.2.1.6.nupkg.sha512",
-    "/home/brenoacioli/.nuget/packages/system.memory/4.5.3/system.memory.4.5.3.nupkg.sha512"
+    "/home/brenoacioli/.nuget/packages/system.configuration.configurationmanager/8.0.0/system.configuration.configurationmanager.8.0.0.nupkg.sha512",
+    "/home/brenoacioli/.nuget/packages/system.diagnostics.eventlog/8.0.0/system.diagnostics.eventlog.8.0.0.nupkg.sha512",
+    "/home/brenoacioli/.nuget/packages/system.memory/4.5.3/system.memory.4.5.3.nupkg.sha512",
+    "/home/brenoacioli/.nuget/packages/system.security.cryptography.protecteddata/8.0.0/system.security.cryptography.protecteddata.8.0.0.nupkg.sha512"
   ],
   "logs": []
 }
