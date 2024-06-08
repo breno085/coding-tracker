@@ -40,11 +40,10 @@ Challenge 4 - Colocar metas de programação:
 Selecionando 1 - Inserir metas:
  - Pedir para inserir o prazo final
  - Pedir para inserir o numero de horas total
- - Calcular quantas horas o usuário precisará programar por dia até o prazo final, a partir de hoje, para atingir a meta,
-e mostrar para o usuário
+ - Calcular quantas horas o usuário precisará programar por dia até o prazo final, a partir de hoje, para atingir a meta, e mostrar para o usuário
 Selecionando 2 - mostrar progresso:
- - Eu vou subtrair o número de horas total pelo número de horas inseridas a partir do dia inicial até o dia final e calcular a média
+ - Eu vou subtrair o número de horas total pelo número de horas que foram inseridas a partir do dia inicial até o dia final e calcular a média
 de horas com esse valor dividido pelo numero de dias restantes e mostrar pro usuário
- - caso o número de horas que o usuário precise programar para atingir a meta for maior que 24horas,mostrar uma mensagem pro usuário para criar novas metas, pois infelizmente ele não vai poder possível cumprir essa
+ - caso o número de horas que o usuário precise programar para atingir a meta for maior que 24horas, mostrar uma mensagem pro usuário para criar novas metas, pois infelizmente não vai ser possível cumprir essa
 
 
