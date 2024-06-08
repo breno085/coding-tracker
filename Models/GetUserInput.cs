@@ -28,6 +28,7 @@ namespace coding_tracker.Models
                 Console.WriteLine("Type 2 to Insert Record");
                 Console.WriteLine("Type 3 to Delete Record");
                 Console.WriteLine("Type 4 to Update Record");
+                Console.WriteLine("Type 5 to track your coding time with a stopwatch");
                 Console.WriteLine("--------------------------------\n");
 
                 string command = Console.ReadLine();
@@ -50,6 +51,9 @@ namespace coding_tracker.Models
                         break;
                     case "4":
                         UpdateProcess();
+                        break;
+                    case "5":
+                        StopWatch();
                         break;
                     default:
                         Console.WriteLine("\nInvalid Command. Please type a number from 0 to 4.\n");
@@ -242,6 +246,13 @@ namespace coding_tracker.Models
                 int finalInput = Convert.ToInt32(numberInput);
 
                 return finalInput;
+            }
+
+            public void StopWatch()
+            {
+                StopWatch watch = new StopWatch();
+
+                watch.Run();
             }
 
         }
