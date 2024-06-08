@@ -17,3 +17,34 @@ This code was organized according to Object-Oriented Programming (OOP) principle
 - Coding Session Class: Represents a coding session object (CodingTracker class).
 - Coding Controller Class: Manages the creation, retrieval, updating, and deletion (CRUD) operations for coding sessions.
   (Example: Retrieves user input, stores it in a Coding Session object, and sends it to the database.)
+
+Restando:
+~~Challenge 1 - Stop Watch~~
+
+Inserir uns 100 valores aleatórios desde começo do ano até hoje para facilitar no restante das challenges
+
+Challenge 2 - Ideia para filtrar os records:
+por dias:
+ - pedir pra inserir o primeiro dia até a data final que quero filtrar
+por semanas:
+- pedir pra inserir a semana inicial e a semana final do ano (vai mostrar todos os dias daquelas semanas ?)
+por ano:
+ - pedir para inserir o ano (vai mostrar todos os dias daquele ano que programei)
+
+Challenge 3 - Calcular a média por período:
+ - No final dos filtros diário, semanal e anual, mostrar um texto dizendo
+qual foi o total de horas programando e a média diária/semanal/anual
+
+Challenge 4 - Colocar metas de programação:
+ - Criar um menu com duas opções: 1 - Inserir metas e 2 - mostrar progresso
+Selecionando 1 - Inserir metas:
+ - Pedir para inserir o prazo final
+ - Pedir para inserir o numero de horas total
+ - Calcular quantas horas o usuário precisará programar por dia até o prazo final, a partir de hoje, para atingir a meta,
+e mostrar para o usuário
+Selecionando 2 - mostrar progresso:
+ - Eu vou subtrair o número de horas total pelo número de horas inseridas a partir do dia inicial até o dia final e calcular a média
+de horas com esse valor dividido pelo numero de dias restantes e mostrar pro usuário
+ - caso o número de horas que o usuário precise programar para atingir a meta for maior que 24horas,mostrar uma mensagem pro usuário para criar novas metas, pois infelizmente ele não vai poder possível cumprir essa
+
+
