@@ -13,6 +13,8 @@ namespace coding_tracker.Services
 
             databaseManager.CreateTable(connectionString);
 
+            GenerateRecords.PopulateTableWithRandomData();
+
             GetUserInput getUserInput = new();
 
             getUserInput.MainMenu();

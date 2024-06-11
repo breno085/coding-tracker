@@ -39,8 +39,9 @@ namespace coding_tracker.Models
                 {
                     connection.Open();
 
-                    tableCmd.CommandText =
-                        $"SELECT * FROM coding_session";
+                    tableCmd.CommandText = 
+                    "SELECT * FROM coding_session ORDER BY " +
+                    "SUBSTR(Date, 7, 4) || '-' || SUBSTR(Date, 4, 2) || '-' || SUBSTR(Date, 1, 2) ASC;";
 
                     using (var reader = tableCmd.ExecuteReader())
                     {
