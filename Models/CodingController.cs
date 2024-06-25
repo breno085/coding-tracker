@@ -186,5 +186,93 @@ namespace coding_tracker.Models
                 }
             }
         }
+
+        public static void FilterCodingRecords(string startingDate, string endingDate, string date)
+        {
+            List<CodingTracker> tableData = new();
+
+            using (var connection = new SqliteConnection(connectionString))
+            {
+                using (var tableCmd = connection.CreateCommand())
+                {
+                    connection.Open();
+
+                    if (date == "days")
+                    {
+                        string startingDay = DateTime.ParseExact(startingDate, "dd-MM-yyyy", CultureInfo.InvariantCulture).ToString("yyyy-MM-dd");
+                        string endingDay = DateTime.ParseExact(endingDate, "dd-MM-yyyy", CultureInfo.InvariantCulture).ToString("yyyy-MM-dd");
+
+                        tableCmd.CommandText = $@"
+                            SELECT * 
+                            FROM coding_session 
+                            WHERE 
+                                strftime('%Y-%m-%d', substr(Date, 7, 4) || '-' || substr(Date, 4, 2) || '-' || substr(Date, 1, 2)) 
+                                BETWEEN '{startingDay}' AND '{endingDay}' 
+                            ORDER BY 
+                                strftime('%Y-%m-%d', substr(Date, 7, 4) || '-' || substr(Date, 4, 2) || '-' || substr(Date, 1, 2)) ASC";
+                    }
+                    else if (date == "weeks")
+                    {
+                        Console.WriteLine("TBD");
+                        return;
+                    }
+                    else if (date == "months")
+                    {
+                        string startingMonth = ConvertToYearMonth(startingDate);
+                        string endingMonth = ConvertToYearMonth(endingDate);
+
+                        tableCmd.CommandText = $@"
+                            SELECT * 
+                            FROM coding_session 
+                            WHERE 
+                                strftime('%Y-%m', substr(Date, 7, 4) || '-' || substr(Date, 4, 2) || '-' || substr(Date, 1, 2)) 
+                                BETWEEN '{startingMonth}' AND '{endingMonth}' 
+                            ORDER BY 
+                                strftime('%Y-%m-%d', substr(Date, 7, 4) || '-' || substr(Date, 4, 2) || '-' || substr(Date, 1, 2)) ASC";
+                    }
+                    else if (date == "year")
+                    {
+                        Console.WriteLine("TBD");
+                        return;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid date.");
+                        return;
+                    }
+
+                    using (var reader = tableCmd.ExecuteReader())
+                    {
+                        if (reader.HasRows)
+                        {
+                            while (reader.Read())
+                            {   
+                                tableData.Add(
+                                new CodingTracker
+                                {
+                                    Id = reader.GetInt32(0),
+                                    Date = DateTime.ParseExact(reader.GetString(1), "dd-MM-yyyy", new CultureInfo("en-US")),
+                                    StartTime = TimeSpan.ParseExact(reader.GetString(2), "hh\\:mm", new CultureInfo("en-US")),
+                                    EndTime = TimeSpan.ParseExact(reader.GetString(3), "hh\\:mm", new CultureInfo("en-US")),
+                                    Duration = TimeSpan.ParseExact(reader.GetString(4), "hh\\:mm", new CultureInfo("en-US"))
+                                });
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("No rows found");
+                        }
+                    }
+                }
+            }
+            SpectreTableRenderer.RenderTable(tableData);
+        }
+
+        private static string ConvertToYearMonth(string date)
+        {
+            string[] dateYearMonth = date.Split('-');
+
+            return dateYearMonth[1] + '-' + dateYearMonth[0];
+        }
     }
 }

@@ -29,6 +29,9 @@ namespace coding_tracker.Models
                 Console.WriteLine("Type 3 to Delete Record");
                 Console.WriteLine("Type 4 to Update Record");
                 Console.WriteLine("Type 5 to track your coding time with a stopwatch");
+                Console.WriteLine("Type 6 to filter your records per period (days, weeks, months, years)");
+                Console.WriteLine("Type 7 to create coding goals");
+
                 Console.WriteLine("--------------------------------\n");
 
                 string command = Console.ReadLine();
@@ -55,6 +58,12 @@ namespace coding_tracker.Models
                     case "5":
                         StopWatch();
                         break;
+                    case "6":
+                        FilterRecords();
+                        break;
+                    case "7":
+                        Console.WriteLine("TBD");
+                        break;
                     default:
                         Console.WriteLine("\nInvalid Command. Please type a number from 0 to 4.\n");
                         break;
@@ -64,6 +73,57 @@ namespace coding_tracker.Models
             }
         }
 
+        public void FilterRecords()
+        {   
+            bool filtering = true;
+
+            do
+            {
+                Console.WriteLine("Type to filter:");
+                Console.WriteLine("1 - Days");
+                Console.WriteLine("2 - Weeks");
+                Console.WriteLine("3 - Months");
+                Console.WriteLine("4 - Year");
+                Console.WriteLine("or type 0 to go back to the main menu");
+
+                string op = Console.ReadLine();
+
+                switch(op)
+                {
+                    case "1":
+                        string startingDay = DateInput("Please insert the starting day. Format: (dd-MM-yyyy). Type 0 to return to main menu.");
+                        string endingDay = DateInput("Please insert the ending day. Format: (dd-MM-yyyy). Type 0 to return to main menu.");
+                        CodingController.FilterCodingRecords(startingDay, endingDay, "days");
+                        break;
+                    case "2":
+                        break;
+                    case "3":
+                        string startingMonth = MonthInput("Please insert the starting month and year. Format: (MM-yyyy). Type 0 to return to main menu.");
+                        string endingMonth = MonthInput("Please insert the ending month and year. Format: (MM-yyyy). Type 0 to return to main menu.");
+                        CodingController.FilterCodingRecords(startingMonth, endingMonth, "months");
+                        break;
+                    case "4":
+                        break;
+                    case "0":
+                        filtering = false;
+                        break;
+                    default:
+                        Console.WriteLine("Invalid command. Type a valid command from the menu.");
+                        break;
+                }
+
+            } while (filtering);
+        }
+
+        public string MonthInput(string date)
+        {
+            Console.WriteLine(date);
+            string monthInput = Console.ReadLine();
+
+            if (monthInput == "0") MainMenu();
+            
+            return monthInput;
+        }
         private void GetAllRecords()
         {
             Console.Clear();
@@ -200,9 +260,9 @@ namespace coding_tracker.Models
             return timeInput;
         }
 
-        public string DateInput()
+        public string DateInput(string dateinput = "\nPlease insert date of your coding session you want to update. Format: (dd-MM-yyyy). Type 0 to return to main menu.")
         {
-            Console.WriteLine("\nPlease insert date of your coding session you want to update. Format: (dd-MM-yyyy). Type 0 to return to main menu.");
+            Console.WriteLine(dateinput);
             string dateInput = Console.ReadLine();
 
             if (dateInput == "0") MainMenu();

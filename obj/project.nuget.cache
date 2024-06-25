@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "ZBj6zx59UcWL3hMkZv5ay2x6Du4t5orJT4PQaWNwsDzYH0DJip3/FDrcGATGhxJ/L+iSD+EMF5v/PuH+6GY9iw==",
+  "dgSpecHash": "J7O3n4r5aTo=",
   "success": true,
   "projectFilePath": "/home/brenoacioli/Documents/coding-tracker/coding-tracker.csproj",
   "expectedPackageFiles": [
@@ -15,7 +15,10 @@
     "/home/brenoacioli/.nuget/packages/system.configuration.configurationmanager/8.0.0/system.configuration.configurationmanager.8.0.0.nupkg.sha512",
     "/home/brenoacioli/.nuget/packages/system.diagnostics.eventlog/8.0.0/system.diagnostics.eventlog.8.0.0.nupkg.sha512",
     "/home/brenoacioli/.nuget/packages/system.memory/4.5.3/system.memory.4.5.3.nupkg.sha512",
-    "/home/brenoacioli/.nuget/packages/system.security.cryptography.protecteddata/8.0.0/system.security.cryptography.protecteddata.8.0.0.nupkg.sha512"
+    "/home/brenoacioli/.nuget/packages/system.security.cryptography.protecteddata/8.0.0/system.security.cryptography.protecteddata.8.0.0.nupkg.sha512",
+    "/home/brenoacioli/.nuget/packages/microsoft.netcore.app.ref/8.0.6/microsoft.netcore.app.ref.8.0.6.nupkg.sha512",
+    "/home/brenoacioli/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.6/microsoft.aspnetcore.app.ref.8.0.6.nupkg.sha512",
+    "/home/brenoacioli/.nuget/packages/microsoft.netcore.app.host.linux-x64/8.0.6/microsoft.netcore.app.host.linux-x64.8.0.6.nupkg.sha512"
   ],
   "logs": []
 }

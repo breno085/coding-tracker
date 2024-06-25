@@ -21,7 +21,7 @@ This code was organized according to Object-Oriented Programming (OOP) principle
 Restando:
 ~~Challenge 1 - Stop Watch~~
 
-Inserir uns 100 valores aleatórios desde começo do ano até hoje para facilitar no restante das challenges
+~~Inserir uns 100 valores aleatórios desde começo do ano até hoje para facilitar no restante das challenges~~
 
 Challenge 2 - Ideia para filtrar os records:
 por dias:
@@ -34,13 +34,14 @@ por ano:
 Challenge 3 - Calcular a média por período:
  - No final dos filtros diário, semanal e anual, mostrar um texto dizendo
 qual foi o total de horas programando e a média diária/semanal/anual
+- Diário: Somar a duration the todos os records e dividir pelo número de dias percorridos desde o primeiro record inserido até datetime.now. Mostrar o número de dias percorridos, o número de dias que programei, as horas totais que programei e a média diária.
 
 Challenge 4 - Colocar metas de programação:
  - Criar um menu com duas opções: 1 - Inserir metas e 2 - mostrar progresso
 Selecionando 1 - Inserir metas:
  - Pedir para inserir o prazo final
  - Pedir para inserir o numero de horas total
- - Calcular quantas horas o usuário precisará programar por dia até o prazo final, a partir de hoje, para atingir a meta, e mostrar para o usuário
+ - Calcular quantas horas o usuário precisará programar por dia até o prazo final, a partir de hoje, para atingir a meta, e mostrar para o usuário (fazer uns testes com números de horas e prazos absurdos na plataforma da DIO para ver como ela responde e eu ter uma ideia do que fazer no meu projeto)
 Selecionando 2 - mostrar progresso:
  - Eu vou subtrair o número de horas total pelo número de horas que foram inseridas a partir do dia inicial até o dia final e calcular a média
 de horas com esse valor dividido pelo numero de dias restantes e mostrar pro usuário
