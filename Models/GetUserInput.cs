@@ -74,7 +74,7 @@ namespace coding_tracker.Models
         }
 
         public void FilterRecords()
-        {   
+        {
             bool filtering = true;
 
             do
@@ -88,7 +88,7 @@ namespace coding_tracker.Models
 
                 string op = Console.ReadLine();
 
-                switch(op)
+                switch (op)
                 {
                     case "1":
                         string startingDay = DateInput("Please insert the starting day. Format: (dd-MM-yyyy). Type 0 to return to main menu.");
@@ -96,6 +96,9 @@ namespace coding_tracker.Models
                         CodingController.FilterCodingRecords(startingDay, endingDay, "days");
                         break;
                     case "2":
+                        string startingWeekDay = DateInput("Please insert the starting week day. Format: (dd-MM-yyyy). Type 0 to return to main menu.");
+                        string endingWeekDay = DateInput("Please insert the ending week day. Format: (dd-MM-yyyy). Type 0 to return to main menu.");
+                        CodingController.FilterCodingRecords(startingWeekDay, endingWeekDay, "weeks");
                         break;
                     case "3":
                         string startingMonth = MonthInput("Please insert the starting month and year. Format: (MM-yyyy). Type 0 to return to main menu.");
@@ -103,6 +106,15 @@ namespace coding_tracker.Models
                         CodingController.FilterCodingRecords(startingMonth, endingMonth, "months");
                         break;
                     case "4":
+                        string startingYear = "";
+
+                        do
+                        {
+                        Console.WriteLine("Insert the year.");
+                        startingYear = Console.ReadLine();
+                        } while (!int.TryParse(startingYear, out _));
+
+                        CodingController.FilterCodingRecords(startingDate: startingYear);
                         break;
                     case "0":
                         filtering = false;
@@ -121,8 +133,48 @@ namespace coding_tracker.Models
             string monthInput = Console.ReadLine();
 
             if (monthInput == "0") MainMenu();
-            
-            return monthInput;
+
+            bool validDate = false;
+            string[] monthValidation = monthInput.Split('-');
+
+            while (validDate == false)
+            {
+                if (monthValidation.Length == 2)
+                {
+                    if (int.TryParse(monthValidation[0], out _) && int.TryParse(monthValidation[1], out _))
+                    {
+                        while (monthValidation[0].Length != 2 && monthValidation[1].Length != 4)
+                        {
+                            monthValidation = MonthValidationFormat();
+                        }
+                        validDate = true;
+                    }
+                    else
+                    {
+                        validDate = false;
+
+                        monthValidation = MonthValidationFormat();
+                    }
+                }
+                else
+                {
+                    validDate = false;
+
+                    monthValidation = MonthValidationFormat();
+                }
+            }
+
+            return String.Join("-", monthValidation);
+        }
+
+        public string[] MonthValidationFormat()
+        {
+            Console.WriteLine("Type a valid date. Format: (MM-yyyy). Type 0 to return to main menu.");
+            string monthInput = Console.ReadLine();
+
+            if (monthInput == "0") MainMenu();
+
+           return monthInput.Split('-');
         }
         private void GetAllRecords()
         {
@@ -254,7 +306,7 @@ namespace coding_tracker.Models
                 Console.WriteLine("Invalid time. Format: (hh:mm). Type 0 to return to main menu or try again: \n");
                 timeInput = Console.ReadLine();
 
-                if (timeInput == "0")  mainMenu.MainMenu();
+                if (timeInput == "0") mainMenu.MainMenu();
             }
 
             return timeInput;
@@ -272,48 +324,48 @@ namespace coding_tracker.Models
                 Console.WriteLine("Invalid time. Format: (dd-MM-yyyy). Type 0 to return to main menu or try again: \n");
                 dateInput = Console.ReadLine();
 
-                if (dateInput == "0")  MainMenu();
+                if (dateInput == "0") MainMenu();
             }
 
             return dateInput;
         }
-            public static string CalculateDuration(string startTimeStr, string endTimeStr)
-            {
-                TimeSpan startTime = TimeSpan.Parse(startTimeStr);
-                TimeSpan endTime = TimeSpan.Parse(endTimeStr);
+        public static string CalculateDuration(string startTimeStr, string endTimeStr)
+        {
+            TimeSpan startTime = TimeSpan.Parse(startTimeStr);
+            TimeSpan endTime = TimeSpan.Parse(endTimeStr);
 
-                TimeSpan timeDifference = endTime - startTime;
+            TimeSpan timeDifference = endTime - startTime;
 
-                return timeDifference.ToString(@"hh\:mm");
-            }
-
-            static int GetNumberInput(string input)
-            {
-                Console.WriteLine(input);
-
-                string numberInput = Console.ReadLine();
-
-                GetUserInput mainMenu = new GetUserInput();
-
-                while (!Int32.TryParse(numberInput, out _) || Convert.ToInt32(numberInput) < 0 || string.IsNullOrEmpty(numberInput))
-                {
-                    Console.WriteLine("\nInvalid Id, try again. (Or type 0 to go back to the main menu)");
-                    numberInput = Console.ReadLine();
-                }
-
-                if (numberInput == "0") mainMenu.MainMenu();
-
-                int finalInput = Convert.ToInt32(numberInput);
-
-                return finalInput;
-            }
-
-            public void StopWatch()
-            {
-                StopWatch watch = new StopWatch();
-
-                watch.Run();
-            }
-
+            return timeDifference.ToString(@"hh\:mm");
         }
+
+        static int GetNumberInput(string input)
+        {
+            Console.WriteLine(input);
+
+            string numberInput = Console.ReadLine();
+
+            GetUserInput mainMenu = new GetUserInput();
+
+            while (!Int32.TryParse(numberInput, out _) || Convert.ToInt32(numberInput) < 0 || string.IsNullOrEmpty(numberInput))
+            {
+                Console.WriteLine("\nInvalid Id, try again. (Or type 0 to go back to the main menu)");
+                numberInput = Console.ReadLine();
+            }
+
+            if (numberInput == "0") mainMenu.MainMenu();
+
+            int finalInput = Convert.ToInt32(numberInput);
+
+            return finalInput;
+        }
+
+        public void StopWatch()
+        {
+            StopWatch watch = new StopWatch();
+
+            watch.Run();
+        }
+
     }
+}

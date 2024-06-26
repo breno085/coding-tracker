@@ -23,7 +23,7 @@ Restando:
 
 ~~Inserir uns 100 valores aleatórios desde começo do ano até hoje para facilitar no restante das challenges~~
 
-Challenge 2 - Ideia para filtrar os records:
+Challenge 2:
 por dias:
  - pedir pra inserir o primeiro dia até a data final que quero filtrar
 por semanas:
@@ -45,6 +45,6 @@ Selecionando 1 - Inserir metas:
 Selecionando 2 - mostrar progresso:
  - Eu vou subtrair o número de horas total pelo número de horas que foram inseridas a partir do dia inicial até o dia final e calcular a média
 de horas com esse valor dividido pelo numero de dias restantes e mostrar pro usuário
- - caso o número de horas que o usuário precise programar para atingir a meta for maior que 24horas, mostrar uma mensagem pro usuário para criar novas metas, pois infelizmente não vai ser possível cumprir essa
+ - caso o número de horas que o usuário precise programar para atingir a meta for maior que 24horas, mostrar uma mensagem pro usuário para criar novas metas, pois infelizmente não vai ser possível cumprir essa (ver como fazer isso ao análisar a plataforma da DIO)
 
 
