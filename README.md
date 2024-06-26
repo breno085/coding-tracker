@@ -1,3 +1,5 @@
+The project was completed with all requirements met, except for using Dapper as specified; instead, I used ADO.NET, and all challenges were successfully addressed.
+
 ## Tips
 
 1. Recomended build order:
@@ -19,7 +21,7 @@ This code was organized according to Object-Oriented Programming (OOP) principle
   (Example: Retrieves user input, stores it in a Coding Session object, and sends it to the database.)
 
 Restando:
-Challenge 3 - Colocar metas de programação:
+Challenge 4 - Colocar metas de programação:
  - Criar um menu com duas opções: 1 - Inserir metas e 2 - mostrar progresso
 Selecionando 1 - Inserir metas:
  - Pedir para inserir o prazo final
