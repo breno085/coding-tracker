@@ -192,6 +192,7 @@ namespace coding_tracker.Models
             List<CodingTracker> tableData = new();
 
             string totalHoursCoding = "";
+            string averageHoursCoding = "";
 
             using (var connection = new SqliteConnection(connectionString))
             {
@@ -204,6 +205,7 @@ namespace coding_tracker.Models
                         string startingDay = DateTime.ParseExact(startingDate, "dd-MM-yyyy", CultureInfo.InvariantCulture).ToString("yyyy-MM-dd");
                         string endingDay = DateTime.ParseExact(endingDate, "dd-MM-yyyy", CultureInfo.InvariantCulture).ToString("yyyy-MM-dd");
                         totalHoursCoding = CalculateTotalHours(startingDay, endingDay, date);
+                        averageHoursCoding = CalculateAverageHoursPerPeriod(startingDay, endingDay, date);
 
                         tableCmd.CommandText = $@"
                             SELECT * 
@@ -219,6 +221,7 @@ namespace coding_tracker.Models
                         string startingMonth = ConvertToYearMonth(startingDate);
                         string endingMonth = ConvertToYearMonth(endingDate);
                         totalHoursCoding = CalculateTotalHours(startingMonth, endingMonth, "months");
+                        averageHoursCoding = CalculateAverageHoursPerPeriod(startingMonth, endingMonth, "months");
 
                         tableCmd.CommandText = $@"
                             SELECT * 
@@ -232,6 +235,7 @@ namespace coding_tracker.Models
                     else if (date == "year")
                     {
                         totalHoursCoding = CalculateTotalHours(startingDate);
+                        averageHoursCoding = CalculateAverageHoursPerPeriod(startingDate: startingDate);
 
                         tableCmd.CommandText = $@"
                         SELECT *
@@ -273,6 +277,7 @@ namespace coding_tracker.Models
             }
             SpectreTableRenderer.RenderTable(tableData);
             Console.WriteLine(totalHoursCoding);
+            Console.WriteLine(averageHoursCoding);
         }
 
         private static string ConvertToYearMonth(string date)
@@ -300,7 +305,7 @@ namespace coding_tracker.Models
                     if (date == "days" || date == "weeks" || date == "months")
                     {
                         string dateFormat = date == "months" ? "%Y-%m" : "%Y-%m-%d";
-                        
+
                         query = $@"
                         SELECT SUM(CAST(SUBSTR(Duration, 1, 2) AS INTEGER) * 60 + CAST(SUBSTR(Duration, 4, 2) AS INTEGER)) 
                         FROM coding_session
@@ -326,13 +331,93 @@ namespace coding_tracker.Models
                     var result = tableCmd.ExecuteScalar();
 
                     int totalMinutes = result != DBNull.Value ? Convert.ToInt32(result) : 0;
-                    return $"Total Time Coding: {totalMinutes / 60} hours and {totalMinutes % 60} minutes.\n";
+                    return $"Total Time Coding: {totalMinutes / 60} hours and {totalMinutes % 60} minutes.";
                 }
             }
         }
-        // public static void ShowTotalAndAverageCodingSessionPerPeriod()
-        // {
+        public static string CalculateAverageHoursPerPeriod(string startingDate = "", string endingDate = "", string date = "year")
+        {
+            using (var connection = new SqliteConnection(connectionString))
+            {
+                using (var tableCmd = connection.CreateCommand())
+                {
+                    connection.Open();
 
-        // }
+                    string query = "";
+                    double averageHours = 0.0;
+
+                    if (date == "days" || date == "weeks" || date == "months")
+                    {
+                        string dateFormat = date == "months" ? "%Y-%m" : "%Y-%m-%d";
+
+                        DateTime startDate, endDate;
+                        if (startingDate.Length == 7 && endingDate.Length == 7)
+                        {
+                            startDate = DateTime.ParseExact(startingDate + "-01", "yyyy-MM-dd", CultureInfo.InvariantCulture);
+                            endDate = DateTime.ParseExact(endingDate + "-01", "yyyy-MM-dd", CultureInfo.InvariantCulture).AddMonths(1).AddDays(-1);
+                        }
+                        else
+                        {
+                            startDate = DateTime.ParseExact(startingDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+                            endDate = DateTime.ParseExact(endingDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+                        }
+
+                        query = $@"
+                            SELECT SUM(CAST(SUBSTR(Duration, 1, 2) AS INTEGER) * 60 + CAST(SUBSTR(Duration, 4, 2) AS INTEGER)) 
+                            FROM coding_session
+                            WHERE 
+                                strftime('{dateFormat}', substr(Date, 7, 4) || '-' || substr(Date, 4, 2) || '-' || substr(Date, 1, 2))
+                            BETWEEN '{startingDate}' AND '{endingDate}'";
+
+                        tableCmd.CommandText = query;
+                        var result = tableCmd.ExecuteScalar();
+                        int totalMinutes = result != DBNull.Value ? Convert.ToInt32(result) : 0;
+                        double totalHours = totalMinutes / 60.0;
+
+                        double totalDays = (endDate - startDate).TotalDays + 1;
+
+                        if (date == "weeks")
+                        {
+                            double totalWeeks = totalDays / 7.0;
+                            averageHours = totalHours / totalWeeks;
+                        }
+                        else if (date == "days")
+                        {
+                            averageHours = totalHours / totalDays;
+                        }
+                        else if (date == "months")
+                        {
+                            double totalMonths = ((endDate.Year - startDate.Year) * 12) + endDate.Month - startDate.Month + 1;
+                            averageHours = totalHours / totalMonths;
+                        }
+                    }
+                    else if (date == "year")
+                    {
+                        query = $@"
+                            SELECT SUM(CAST(SUBSTR(Duration, 1, 2) AS INTEGER) * 60 + CAST(SUBSTR(Duration, 4, 2) AS INTEGER)) 
+                            FROM coding_session
+                            WHERE 
+                                strftime('%Y', substr(Date, 7, 4) || '-' || substr(Date, 4, 2) || '-' || substr(Date, 1, 2))
+                            = '{startingDate}'";
+
+                        tableCmd.CommandText = query;
+                        var result = tableCmd.ExecuteScalar();
+                        int totalMinutes = result != DBNull.Value ? Convert.ToInt32(result) : 0;
+                        double totalHours = totalMinutes / 60.0;
+
+                        double totalDaysInYear = 365.0;
+                        averageHours = totalHours / totalDaysInYear;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid date.");
+                        return "0";
+                    }
+
+                    string period = date == "days" ? "day" : date == "weeks" ? "week" : date == "months" ? "month" : "year";
+                    return $"Average Coding Time per {period}: {averageHours:F2} hours.\n";
+                }
+            }
+        }
     }
 }

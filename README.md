@@ -19,24 +19,7 @@ This code was organized according to Object-Oriented Programming (OOP) principle
   (Example: Retrieves user input, stores it in a Coding Session object, and sends it to the database.)
 
 Restando:
-~~Challenge 1 - Stop Watch~~
-
-~~Inserir uns 100 valores aleatórios desde começo do ano até hoje para facilitar no restante das challenges~~
-
-Challenge 2:
-por dias:
- - pedir pra inserir o primeiro dia até a data final que quero filtrar
-por semanas:
-- pedir pra inserir a semana inicial e a semana final do ano (vai mostrar todos os dias daquelas semanas ?)
-por ano:
- - pedir para inserir o ano (vai mostrar todos os dias daquele ano que programei)
-
-Challenge 3 - Calcular a média por período:
- - No final dos filtros diário, semanal e anual, mostrar um texto dizendo
-qual foi o total de horas programando e a média diária/semanal/anual
-- Diário: Somar a duration the todos os records e dividir pelo número de dias percorridos desde o primeiro record inserido até datetime.now. Mostrar o número de dias percorridos, o número de dias que programei, as horas totais que programei e a média diária.
-
-Challenge 4 - Colocar metas de programação:
+Challenge 3 - Colocar metas de programação:
  - Criar um menu com duas opções: 1 - Inserir metas e 2 - mostrar progresso
 Selecionando 1 - Inserir metas:
  - Pedir para inserir o prazo final
