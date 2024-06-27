@@ -419,5 +419,56 @@ namespace coding_tracker.Models
                 }
             }
         }
+
+        public static void StudyGoalsData(double totalHours, double hoursPerDay, string startDate)
+        {
+            using (var connection = new SqliteConnection(connectionString))
+            {
+                connection.Open();
+
+                int daysLeft = 0;
+                double hoursLeft = 0;
+
+                using (var tableCmd = connection.CreateCommand())
+                {
+                    tableCmd.CommandText = @$"
+                        SELECT SUM(CAST(SUBSTR(Duration, 1, 2) AS INTEGER) * 60 + CAST(SUBSTR(Duration, 4, 2) AS INTEGER)) 
+                        FROM coding_session
+                        WHERE 
+                            strftime('%Y-%m-%d', substr(Date, 7, 4) || '-' || substr(Date, 4, 2) || '-' || substr(Date, 1, 2))
+                        BETWEEN '{startDate}' AND '{DateTime.Now:yyyy-MM-dd}'";
+
+                    var result = tableCmd.ExecuteScalar();
+
+                    hoursLeft = totalHours - Convert.ToDouble(result) / 60;
+
+                    daysLeft = (int)Math.Ceiling(hoursLeft / hoursPerDay);
+                }
+
+                using (var tableCmd = connection.CreateCommand())
+                {
+                    // Get the last date from the coding_session table
+                    tableCmd.CommandText = @"
+                        SELECT MAX(strftime('%Y-%m-%d', substr(Date, 7, 4) || '-' || substr(Date, 4, 2) || '-' || substr(Date, 1, 2)))
+                        FROM coding_session";
+
+                    string lastDateString = (string)tableCmd.ExecuteScalar();
+
+                    if (!DateTime.TryParseExact(lastDateString, "yyyy-MM-dd", null, DateTimeStyles.None, out DateTime lastDate))
+                    {
+                        Console.WriteLine("Invalid date format in the database.");
+                        return;
+                    }
+
+                    // Add daysLeft to the last date
+                    DateTime newEndDate = lastDate.AddDays(daysLeft);
+                    string newEndDateString = newEndDate.ToString("dd-MM-yyyy");
+
+                    Console.WriteLine($"Hours Left: {hoursLeft:F2} hours");
+                    Console.WriteLine($"Days Left: {daysLeft} days");
+                    Console.WriteLine($"Your estimate closing date is {newEndDateString} studying {hoursPerDay:F2} hours per day\n");
+                }
+            }
+        }
     }
 }

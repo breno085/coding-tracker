@@ -39,7 +39,7 @@ namespace coding_tracker.Models
                 switch (command)
                 {
                     case "0":
-                        Console.WriteLine("\nGoodbye\n\n");
+                        Console.WriteLine("\nGoodbye\n");
                         closeApp = true;
                         Environment.Exit(0);
                         break;
@@ -68,7 +68,7 @@ namespace coding_tracker.Models
                         Console.WriteLine("\nInvalid Command. Please type a number from 0 to 4.\n");
                         break;
                 }
-                Console.WriteLine("\n\nPress any key to continue");
+                Console.WriteLine("\nPress any key to continue");
                 Console.ReadLine();
             }
         }
@@ -76,6 +76,7 @@ namespace coding_tracker.Models
         public void StudyGoalMenu()
         {
             bool exit = false;
+            object[] studyGoalUserInput = null;
 
             while (!exit)
             {
@@ -89,10 +90,20 @@ namespace coding_tracker.Models
                 switch (option)
                 {
                     case "1":
-                        StudyGoalUserInput();
+                        //Need to store studyGoalUserInput in a table, currently it only stores in memory
+                        //Also everytime the user insert new goal, it should overrite the existing one (warn the user)
+                        studyGoalUserInput = StudyGoalUserInput();
                         break;
                     case "2":
-                        Console.WriteLine("tbd");
+                        if (studyGoalUserInput == null)
+                        {
+                            Console.WriteLine("You need to insert new goal first before daily hours");
+                            Console.WriteLine("Press any key to continue.\n");
+                            Console.ReadLine();
+                            studyGoalUserInput = StudyGoalUserInput();
+                        }
+
+                        InsertDailyHours(studyGoalUserInput);
                         break;
                     case "3":
                         Console.WriteLine("tbd");
@@ -108,12 +119,24 @@ namespace coding_tracker.Models
             }
         }
 
-        public void StudyGoalUserInput()
+        public void InsertDailyHours(object[] studyGoalUserInput)
+        {
+            Insert();
+
+            double totalHours = (double)studyGoalUserInput[0];
+            double hoursPerDay = (double)studyGoalUserInput[1];
+            string startDate = Convert.ToString(studyGoalUserInput[2]);
+
+            CodingController.StudyGoalsData(totalHours, hoursPerDay, startDate);
+        }
+        public object[] StudyGoalUserInput()
         {
             string answer;
             bool successConv = false;
             double totalHours, hoursPerDay;
             int daysPerWeek;
+
+            object[] studyGoalUserInput;
 
             do
             {
@@ -121,7 +144,7 @@ namespace coding_tracker.Models
                 answer = Console.ReadLine();
                 successConv = double.TryParse(answer, out totalHours) && totalHours > 0;
 
-                if (!successConv) 
+                if (!successConv)
                     Console.WriteLine("Type a valid answer.");
             } while (!successConv);
 
@@ -131,7 +154,7 @@ namespace coding_tracker.Models
                 answer = Console.ReadLine();
                 successConv = double.TryParse(answer, out hoursPerDay) && hoursPerDay <= 12 && hoursPerDay > 0;
 
-                if (!successConv) 
+                if (!successConv)
                     Console.WriteLine("Type a valid answer within the limit of 12 hours.");
             } while (!successConv);
 
@@ -141,18 +164,25 @@ namespace coding_tracker.Models
                 answer = Console.ReadLine();
                 successConv = int.TryParse(answer, out daysPerWeek) && daysPerWeek > 0 && daysPerWeek <= 7;
 
-                if (!successConv) 
+                if (!successConv)
                     Console.WriteLine("Type a valid answer.");
             } while (!successConv);
 
             int daysToReachGoal = (int)Math.Ceiling(totalHours / hoursPerDay);
-            Console.WriteLine(daysToReachGoal);
 
             int totalDaysToReachGoal = (int)Math.Ceiling((double)(daysToReachGoal * 7 / daysPerWeek));
-            Console.WriteLine(totalDaysToReachGoal);
 
-            Console.WriteLine($"Start Date {DateTime.Now:dd-MM-yyyy}");
+            DateTime startDate = DateTime.Now;
+
+            Console.WriteLine($"Start Date {startDate:dd-MM-yyyy}");
             Console.WriteLine($"Your estimate closing date is {DateTime.Now.AddDays(totalDaysToReachGoal):dd-MM-yyyy}, studying {hoursPerDay:F2} hours per day and {daysPerWeek} days per week.\n");
+
+            Console.WriteLine("Press any key to continue.\n");
+            Console.ReadLine();
+
+            studyGoalUserInput = new object[] { totalHours, hoursPerDay, startDate.ToString("yyyy-MM-dd") };
+
+            return studyGoalUserInput;
         }
         public void FilterRecords()
         {
