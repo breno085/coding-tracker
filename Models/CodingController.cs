@@ -1,11 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Configuration;
 using Microsoft.Data.Sqlite;
 using System.Globalization;
-using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace coding_tracker.Models
 {
@@ -420,7 +416,7 @@ namespace coding_tracker.Models
             }
         }
 
-        public static void StudyGoalsData(double totalHours, double hoursPerDay, string startDate)
+        public static string StudyGoalsData(double totalHours, double hoursPerDay, string startDate)
         {
             using (var connection = new SqliteConnection(connectionString))
             {
@@ -457,16 +453,32 @@ namespace coding_tracker.Models
                     if (!DateTime.TryParseExact(lastDateString, "yyyy-MM-dd", null, DateTimeStyles.None, out DateTime lastDate))
                     {
                         Console.WriteLine("Invalid date format in the database.");
-                        return;
+                        return "";
                     }
 
                     // Add daysLeft to the last date
                     DateTime newEndDate = lastDate.AddDays(daysLeft);
                     string newEndDateString = newEndDate.ToString("dd-MM-yyyy");
 
-                    Console.WriteLine($"Hours Left: {hoursLeft:F2} hours");
-                    Console.WriteLine($"Days Left: {daysLeft} days");
-                    Console.WriteLine($"Your estimate closing date is {newEndDateString} studying {hoursPerDay:F2} hours per day\n");
+                    StringBuilder sb = new StringBuilder();
+
+                    if (hoursLeft <= 0)
+                    {    
+                        sb.AppendLine("Congratulations! You reached your goal!");
+                        Environment.Exit(0);
+                    }
+                    else
+                    {
+                        sb.AppendLine($"Hours Left: {hoursLeft:F2} hours");
+                        sb.AppendLine($"Days Left: {daysLeft} days");
+                        sb.AppendLine($"Your estimate closing date is {newEndDateString} studying {hoursPerDay:F2} hours per day");
+                    }
+
+                    Console.WriteLine(sb.ToString());
+                    Console.WriteLine("Press any key to continue.");
+                    Console.ReadLine();
+
+                    return sb.ToString();
                 }
             }
         }

@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.Data.Sqlite;
 using System.Globalization;
 using System.Configuration;
 
@@ -77,6 +72,7 @@ namespace coding_tracker.Models
         {
             bool exit = false;
             object[] studyGoalUserInput = null;
+            string showGoalProgress = "";
 
             while (!exit)
             {
@@ -103,10 +99,16 @@ namespace coding_tracker.Models
                             studyGoalUserInput = StudyGoalUserInput();
                         }
 
-                        InsertDailyHours(studyGoalUserInput);
+                        showGoalProgress = InsertDailyHours(studyGoalUserInput);
                         break;
                     case "3":
-                        Console.WriteLine("tbd");
+                        if (showGoalProgress != "")
+                            Console.WriteLine(showGoalProgress);
+                        else
+                        {
+                            Console.WriteLine("\nGoal or daily hours is empty. Please create a new coding goal:\n");
+                            StudyGoalMenu();
+                        }
                         break;
                     case "4":
                         exit = true;
@@ -119,7 +121,7 @@ namespace coding_tracker.Models
             }
         }
 
-        public void InsertDailyHours(object[] studyGoalUserInput)
+        public string InsertDailyHours(object[] studyGoalUserInput)
         {
             Insert();
 
@@ -127,7 +129,7 @@ namespace coding_tracker.Models
             double hoursPerDay = (double)studyGoalUserInput[1];
             string startDate = Convert.ToString(studyGoalUserInput[2]);
 
-            CodingController.StudyGoalsData(totalHours, hoursPerDay, startDate);
+            return CodingController.StudyGoalsData(totalHours, hoursPerDay, startDate);
         }
         public object[] StudyGoalUserInput()
         {
@@ -184,6 +186,7 @@ namespace coding_tracker.Models
 
             return studyGoalUserInput;
         }
+
         public void FilterRecords()
         {
             bool filtering = true;
