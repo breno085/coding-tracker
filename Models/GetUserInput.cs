@@ -102,13 +102,16 @@ namespace coding_tracker.Models
                         showGoalProgress = InsertDailyHours(studyGoalUserInput);
                         break;
                     case "3":
-                        if (showGoalProgress != "")
+                        if (showGoalProgress != "" && studyGoalUserInput != null)
                             Console.WriteLine(showGoalProgress);
+                        else if (studyGoalUserInput == null)
+                            Console.WriteLine("You need to insert a new goal first");
+                        else if (showGoalProgress == "")
+                            Console.WriteLine("You need to insert your daily hours first");
                         else
-                        {
-                            Console.WriteLine("\nGoal or daily hours is empty. Please create a new coding goal:\n");
-                            StudyGoalMenu();
-                        }
+                            Console.WriteLine("\nGoal and daily hours is empty. Please create a new coding goal:\n");
+
+                        StudyGoalMenu();
                         break;
                     case "4":
                         exit = true;
@@ -128,8 +131,9 @@ namespace coding_tracker.Models
             double totalHours = (double)studyGoalUserInput[0];
             double hoursPerDay = (double)studyGoalUserInput[1];
             string startDate = Convert.ToString(studyGoalUserInput[2]);
+            int daysPerWeek = (int)studyGoalUserInput[3];
 
-            return CodingController.StudyGoalsData(totalHours, hoursPerDay, startDate);
+            return CodingController.StudyGoalsData(totalHours, hoursPerDay, startDate, daysPerWeek);
         }
         public object[] StudyGoalUserInput()
         {
@@ -182,7 +186,7 @@ namespace coding_tracker.Models
             Console.WriteLine("Press any key to continue.\n");
             Console.ReadLine();
 
-            studyGoalUserInput = new object[] { totalHours, hoursPerDay, startDate.ToString("yyyy-MM-dd") };
+            studyGoalUserInput = new object[] { totalHours, hoursPerDay, startDate.ToString("yyyy-MM-dd"), daysPerWeek };
 
             return studyGoalUserInput;
         }

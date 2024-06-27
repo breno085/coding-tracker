@@ -416,7 +416,7 @@ namespace coding_tracker.Models
             }
         }
 
-        public static string StudyGoalsData(double totalHours, double hoursPerDay, string startDate)
+        public static string StudyGoalsData(double totalHours, double hoursPerDay, string startDate, int daysPerWeek)
         {
             using (var connection = new SqliteConnection(connectionString))
             {
@@ -438,7 +438,8 @@ namespace coding_tracker.Models
 
                     hoursLeft = totalHours - Convert.ToDouble(result) / 60;
 
-                    daysLeft = (int)Math.Ceiling(hoursLeft / hoursPerDay);
+                    daysLeft = (int)Math.Ceiling(hoursLeft * 7 / (hoursPerDay * daysPerWeek));
+                    
                 }
 
                 using (var tableCmd = connection.CreateCommand())
@@ -471,7 +472,7 @@ namespace coding_tracker.Models
                     {
                         sb.AppendLine($"Hours Left: {hoursLeft:F2} hours");
                         sb.AppendLine($"Days Left: {daysLeft} days");
-                        sb.AppendLine($"Your estimate closing date is {newEndDateString} studying {hoursPerDay:F2} hours per day");
+                        sb.AppendLine($"Your estimate closing date is {newEndDateString} studying {hoursPerDay:F2} hours per day, {daysPerWeek} days per week.");
                     }
 
                     Console.WriteLine(sb.ToString());
