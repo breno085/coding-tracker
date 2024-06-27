@@ -30,7 +30,7 @@ namespace coding_tracker.Models
                 Console.WriteLine("Type 4 to Update Record");
                 Console.WriteLine("Type 5 to track your coding time with a stopwatch");
                 Console.WriteLine("Type 6 to filter your records per period (days, weeks, months, years)");
-                Console.WriteLine("Type 7 to create coding goals");
+                Console.WriteLine("Type 7 to create study goals");
 
                 Console.WriteLine("--------------------------------\n");
 
@@ -62,7 +62,7 @@ namespace coding_tracker.Models
                         FilterRecords();
                         break;
                     case "7":
-                        Console.WriteLine("TBD");
+                        StudyGoalMenu();
                         break;
                     default:
                         Console.WriteLine("\nInvalid Command. Please type a number from 0 to 4.\n");
@@ -73,6 +73,87 @@ namespace coding_tracker.Models
             }
         }
 
+        public void StudyGoalMenu()
+        {
+            bool exit = false;
+
+            while (!exit)
+            {
+                Console.WriteLine("1 - Insert new goal");
+                Console.WriteLine("2 - Insert daily hours");
+                Console.WriteLine("3 - Show goal progress");
+                Console.WriteLine("4 - Go back to the main menu");
+
+                string option = Console.ReadLine();
+
+                switch (option)
+                {
+                    case "1":
+                        StudyGoalUserInput();
+                        break;
+                    case "2":
+                        Console.WriteLine("tbd");
+                        break;
+                    case "3":
+                        Console.WriteLine("tbd");
+                        break;
+                    case "4":
+                        exit = true;
+                        MainMenu();
+                        break;
+                    default:
+                        Console.WriteLine("Type a valid option.");
+                        break;
+                }
+            }
+        }
+
+        public void StudyGoalUserInput()
+        {
+            string answer;
+            bool successConv = false;
+            double totalHours, hoursPerDay;
+            int daysPerWeek;
+
+            do
+            {
+                Console.WriteLine("Insert the total hours:");
+                answer = Console.ReadLine();
+                successConv = double.TryParse(answer, out totalHours) && totalHours > 0;
+
+                if (!successConv) 
+                    Console.WriteLine("Type a valid answer.");
+            } while (!successConv);
+
+            do
+            {
+                Console.WriteLine("Insert the amount of hours you will code per day (12 hours limit):");
+                answer = Console.ReadLine();
+                successConv = double.TryParse(answer, out hoursPerDay) && hoursPerDay <= 12 && hoursPerDay > 0;
+
+                if (!successConv) 
+                    Console.WriteLine("Type a valid answer within the limit of 12 hours.");
+            } while (!successConv);
+
+            do
+            {
+                Console.WriteLine("how many days a week you would like to study?");
+                answer = Console.ReadLine();
+                successConv = int.TryParse(answer, out daysPerWeek) && daysPerWeek > 0 && daysPerWeek <= 7;
+
+                if (!successConv) 
+                    Console.WriteLine("Type a valid answer.");
+            } while (!successConv);
+
+            int daysToReachGoal = (int)Math.Ceiling(totalHours / hoursPerDay);
+            Console.WriteLine(daysToReachGoal);
+
+            int totalDaysToReachGoal = (int)Math.Ceiling((double)(daysToReachGoal * 7 / daysPerWeek));
+            Console.WriteLine(totalDaysToReachGoal);
+
+            Console.WriteLine($"Start Date {DateTime.Now:dd-MM-yyyy}");
+            Console.WriteLine($"Your estimate closing date is {DateTime.Now.AddDays(totalDaysToReachGoal):dd-MM-yyyy}, studying {hoursPerDay:F2} hours per day and {daysPerWeek} days per week.\n");
+        }
         public void FilterRecords()
         {
             bool filtering = true;
@@ -110,8 +191,8 @@ namespace coding_tracker.Models
 
                         do
                         {
-                        Console.WriteLine("Insert the year.");
-                        startingYear = Console.ReadLine();
+                            Console.WriteLine("Insert the year.");
+                            startingYear = Console.ReadLine();
                         } while (!int.TryParse(startingYear, out _));
 
                         CodingController.FilterCodingRecords(startingDate: startingYear);
@@ -174,7 +255,7 @@ namespace coding_tracker.Models
 
             if (monthInput == "0") MainMenu();
 
-           return monthInput.Split('-');
+            return monthInput.Split('-');
         }
         private void GetAllRecords()
         {

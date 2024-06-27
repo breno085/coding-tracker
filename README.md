@@ -21,15 +21,26 @@ This code was organized according to Object-Oriented Programming (OOP) principle
   (Example: Retrieves user input, stores it in a Coding Session object, and sends it to the database.)
 
 Restando:
-Challenge 4 - Colocar metas de programação:
- - Criar um menu com duas opções: 1 - Inserir metas e 2 - mostrar progresso
+Challenge 4 - Colocar metas de programação (vou ver se eu faço com C# ou usando SQL queries):
+ - Criar um menu com duas opções: 1 - Insert new goal e 2 - Visualize currenty goal que tem duas opções: 1 Insert today hours e 2 - show progress
 Selecionando 1 - Inserir metas:
- - Pedir para inserir o prazo final
  - Pedir para inserir o numero de horas total
- - Calcular quantas horas o usuário precisará programar por dia até o prazo final, a partir de hoje, para atingir a meta, e mostrar para o usuário (fazer uns testes com números de horas e prazos absurdos na plataforma da DIO para ver como ela responde e eu ter uma ideia do que fazer no meu projeto)
-Selecionando 2 - mostrar progresso:
- - Eu vou subtrair o número de horas total pelo número de horas que foram inseridas a partir do dia inicial até o dia final e calcular a média
-de horas com esse valor dividido pelo numero de dias restantes e mostrar pro usuário
- - caso o número de horas que o usuário precise programar para atingir a meta for maior que 24horas, mostrar uma mensagem pro usuário para criar novas metas, pois infelizmente não vai ser possível cumprir essa (ver como fazer isso ao análisar a plataforma da DIO)
+ - Pedir para inserir quantas horas pretente programar por dia (colocar um limite de 12)
+ - Pedir para inserir quantos dias pretende estudar por semana
+ - Mostrar o dia e quanto dias será necessário para atingir a meta estudando a quantidade de horas necessárias (Your estimate closing date {data} studying {horas} per day)
+- Como fazer o cálculo: numeros de dias para atingir a meta será igual ao número de horas totais dividido pelo numero de horas por dia.
+
+Selecionando 2 - Visualize currenty goal progress:
+1 - Insert how many hours you coded today (devo pedir pro usuário inserir start time e end time para armazenar na tabela já criada)
+o usuário insere quantas horas programou hoje (start time and end time) e o programa mostra a mensagem: Your estimate closing date {data} studying {hours} per day. (essa data vai se atualizar constatemente baseado no número de horas inseridas diariamente)
+Hours left: {hours} (vai subtrair o numero de horas total pelas horas inseridas)
+
+2 - Show progress
+Mostrar uma tabelinha com Id, Date e Total Hours (aacho que devo reaproveitar a tabela já criada a invés de criar uma nova)
+Em seguida a mesma informação acima:
+Your estimate closing date {data} studying {hours} per day.
+Hours left: {hours}
+
+
 
 
