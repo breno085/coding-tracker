@@ -1,7 +1,9 @@
-﻿using coding_tracker.Models;
+﻿using coding_tracker.Repositories;
+using coding_tracker.Services;
+using coding_tracker.Controllers;
 using System.Configuration;
 
-namespace coding_tracker.Services
+namespace coding_tracker
 {
     class Program
     {
@@ -13,7 +15,9 @@ namespace coding_tracker.Services
 
             databaseManager.CreateTable(connectionString);
 
+
             GenerateRecords.PopulateTableWithRandomData();
+
 
             GetUserInput getUserInput = new();
 

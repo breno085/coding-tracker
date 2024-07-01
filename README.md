@@ -11,7 +11,7 @@ The project was completed with all requirements met (except for using Dapper as 
 
 ## OOP Principles
 
-This code was organized according to Object-Oriented Programming (OOP) principles. I created separate classes for different responsibilities within my CRUD application, following this suggested structure:
+This code was organized following the Separation of concerns (SoC) design principle and the Object-Oriented Programming (OOP) principles. I I created separate classes for different responsibilities within my CRUD application, following this suggested structure:
 
 - Main Program Class: Responsible for coordinating the flow of the application and interacting with the user through the console.
 - Database Manager Class: Handles all interactions with the SQLite database.

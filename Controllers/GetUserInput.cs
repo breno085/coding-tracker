@@ -1,13 +1,16 @@
 using System.Globalization;
 using System.Configuration;
+using coding_tracker.Repositories;
+using coding_tracker.Models;
+using coding_tracker.Services;
 
-namespace coding_tracker.Models
+namespace coding_tracker.Controllers
 {
     internal class GetUserInput
     {
         static string connectionString = ConfigurationManager.AppSettings.Get("ConnectionString");
 
-        CodingController codingController = new();
+        CodingRepository codingController = new();
 
         internal void MainMenu()
         {
@@ -133,7 +136,7 @@ namespace coding_tracker.Models
             string startDate = Convert.ToString(studyGoalUserInput[2]);
             int daysPerWeek = (int)studyGoalUserInput[3];
 
-            return CodingController.StudyGoalsData(totalHours, hoursPerDay, startDate, daysPerWeek);
+            return CodingRepository.StudyGoalsData(totalHours, hoursPerDay, startDate, daysPerWeek);
         }
         public object[] StudyGoalUserInput()
         {
@@ -211,17 +214,17 @@ namespace coding_tracker.Models
                     case "1":
                         string startingDay = DateInput("Please insert the starting day. Format: (dd-MM-yyyy). Type 0 to return to main menu.");
                         string endingDay = DateInput("Please insert the ending day. Format: (dd-MM-yyyy). Type 0 to return to main menu.");
-                        CodingController.FilterCodingRecords(startingDay, endingDay, "days");
+                        CodingRepository.FilterCodingRecords(startingDay, endingDay, "days");
                         break;
                     case "2":
                         string startingWeekDay = DateInput("Please insert the starting week day. Format: (dd-MM-yyyy). Type 0 to return to main menu.");
                         string endingWeekDay = DateInput("Please insert the ending week day. Format: (dd-MM-yyyy). Type 0 to return to main menu.");
-                        CodingController.FilterCodingRecords(startingWeekDay, endingWeekDay, "weeks");
+                        CodingRepository.FilterCodingRecords(startingWeekDay, endingWeekDay, "weeks");
                         break;
                     case "3":
                         string startingMonth = MonthInput("Please insert the starting month and year. Format: (MM-yyyy). Type 0 to return to main menu.");
                         string endingMonth = MonthInput("Please insert the ending month and year. Format: (MM-yyyy). Type 0 to return to main menu.");
-                        CodingController.FilterCodingRecords(startingMonth, endingMonth, "months");
+                        CodingRepository.FilterCodingRecords(startingMonth, endingMonth, "months");
                         break;
                     case "4":
                         string startingYear = "";
@@ -232,7 +235,7 @@ namespace coding_tracker.Models
                             startingYear = Console.ReadLine();
                         } while (!int.TryParse(startingYear, out _));
 
-                        CodingController.FilterCodingRecords(startingDate: startingYear);
+                        CodingRepository.FilterCodingRecords(startingDate: startingYear);
                         break;
                     case "0":
                         filtering = false;
@@ -333,7 +336,7 @@ namespace coding_tracker.Models
 
             GetAllRecords();
 
-            CodingController codingController = new CodingController();
+            CodingRepository codingController = new CodingRepository();
 
             int recordId;
 

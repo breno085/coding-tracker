@@ -1,6 +1,6 @@
 using Microsoft.Data.Sqlite;
 
-namespace coding_tracker.Models
+namespace coding_tracker.Repositories
 {
     internal class DatabaseManager
     {

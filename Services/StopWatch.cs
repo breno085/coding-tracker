@@ -1,6 +1,8 @@
 using System.Diagnostics;
+using coding_tracker.Models;
+using coding_tracker.Repositories;
 
-namespace coding_tracker.Models
+namespace coding_tracker.Services
 {
     public class StopWatch
     {
@@ -48,7 +50,7 @@ namespace coding_tracker.Models
                             code.EndTime = endTime.Value.TimeOfDay;
                             code.Duration = stopwatch.Elapsed;
 
-                            CodingController insertTimes = new CodingController();
+                            CodingRepository insertTimes = new CodingRepository();
 
                             insertTimes.Post(code);
                         }

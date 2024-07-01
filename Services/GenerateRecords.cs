@@ -1,7 +1,9 @@
 using Microsoft.Data.Sqlite;
 using System.Configuration;
+using coding_tracker.Models;
+using coding_tracker.Repositories;
 
-namespace coding_tracker.Models
+namespace coding_tracker.Services
 {
     public static class GenerateRecords
     {
@@ -35,7 +37,7 @@ namespace coding_tracker.Models
                 });
             }
 
-            CodingController codingSession = new CodingController();
+            CodingRepository codingSession = new CodingRepository();
 
             foreach (var coding in records)
             {

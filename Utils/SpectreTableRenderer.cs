@@ -1,6 +1,7 @@
 using Spectre.Console;
+using coding_tracker.Models;
 
-namespace coding_tracker.Models
+namespace coding_tracker.Utils
 {
     public class SpectreTableRenderer
     {

@@ -2,10 +2,13 @@ using System.Configuration;
 using Microsoft.Data.Sqlite;
 using System.Globalization;
 using System.Text;
+using coding_tracker.Models;
+using coding_tracker.Utils;
+using coding_tracker.Controllers;
 
-namespace coding_tracker.Models
+namespace coding_tracker.Repositories
 {
-    internal class CodingController
+    internal class CodingRepository
     {
         static string connectionString = ConfigurationManager.AppSettings.Get("ConnectionString");
 
