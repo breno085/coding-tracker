@@ -24,8 +24,8 @@ The project was completed with all requirements met (except for using Dapper as 
 This code was organized following the Separation of Concerns (SoC) design principle and Object-Oriented Programming (OOP) principles. I created separate classes for different responsibilities within my CRUD application, following this suggested structure:
 
 - Main Program Class: Coordinates the application flow and user interactions via the console.
-- Database Manager Class: Handles SQLite database interactions.
-- User Interface Class: Manages user input and output.
+- Database Manager Class: Manages the creation of the SQLite database table for coding sessions.
+- User Interface Class: Handles user interactions by providing menus, collecting input, and calling methods for managing coding sessions, filtering records, and setting study goals.
 - Coding Session Class: Represents a coding session object (CodingTracker class).
 - Coding Repository Class: Manages CRUD operations for coding sessions.
 
